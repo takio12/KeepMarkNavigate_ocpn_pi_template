@@ -1,0 +1,53 @@
+name: Verify KeepMarkNavigate Template
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  verify:
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout repository and submodules
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - name: Show repository structure
+        shell: pwsh
+        run: |
+          Get-ChildItem -Force
+          Get-ChildItem -Recurse -Depth 2
+
+      - name: Check essential template files
+        shell: pwsh
+        run: |
+          $required = @(
+            "CMakeLists.txt",
+            "src/CleanPlugin_pi.cpp",
+            "include/CleanPlugin_pi.h",
+            "plugin.xml.in"
+          )
+
+          foreach ($file in $required) {
+            if (-not (Test-Path $file)) {
+              Write-Error "Required file is missing: $file"
+            }
+            Write-Host "Found: $file"
+          }
+
+      - name: Upload source snapshot
+        uses: actions/upload-artifact@v4
+        with:
+          name: KeepMarkNavigate-template-source
+          path: |
+            CMakeLists.txt
+            plugin.xml.in
+            src/
+            include/
+            data/
+            ci/
+            buildwin/

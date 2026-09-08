@@ -1,4 +1,4 @@
-name: Verify KeepMarkNavigate Template
+name: Build KeepMarkNavigate Windows x64
 
 on:
   push:
@@ -7,47 +7,48 @@ on:
   workflow_dispatch:
 
 jobs:
-  verify:
+  build-windows-x64:
     runs-on: windows-latest
+    timeout-minutes: 120
 
     steps:
-      - name: Checkout repository and submodules
+      - name: Checkout source and submodules
         uses: actions/checkout@v4
         with:
           submodules: recursive
 
-      - name: Show repository structure
+      - name: Set up Microsoft compiler
+        uses: ilammy/msvc-dev-cmd@v1
+        with:
+          arch: x64
+
+      - name: Download and prepare OpenCPN dependencies
+        shell: cmd
+        run: |
+          call buildwin\win_deps.bat
+
+      - name: Configure CMake for 64-bit Release
         shell: pwsh
         run: |
-          Get-ChildItem -Force
-          Get-ChildItem -Recurse -Depth 2
+          cmake -S . -B build -A x64
 
-      - name: Check essential template files
+      - name: Build OpenCPN plugin tarball
         shell: pwsh
         run: |
-          $required = @(
-            "CMakeLists.txt",
-            "src/CleanPlugin_pi.cpp",
-            "include/CleanPlugin_pi.h",
-            "plugin.xml.in"
-          )
+          cmake --build build --config Release --target tarball
 
-          foreach ($file in $required) {
-            if (-not (Test-Path $file)) {
-              Write-Error "Required file is missing: $file"
-            }
-            Write-Host "Found: $file"
-          }
+      - name: List build packages
+        shell: pwsh
+        run: |
+          Get-ChildItem -Path . -Recurse -Include *.tar.gz,*.zip,*.dll |
+            Select-Object FullName, Length
 
-      - name: Upload source snapshot
+      - name: Upload Windows x64 plugin package
         uses: actions/upload-artifact@v4
         with:
-          name: KeepMarkNavigate-template-source
+          name: KeepMarkNavigate-Windows-x64
           path: |
-            CMakeLists.txt
-            plugin.xml.in
-            src/
-            include/
-            data/
-            ci/
-            buildwin/
+            **/*.tar.gz
+            **/*.zip
+            **/*.dll
+          if-no-files-found: error

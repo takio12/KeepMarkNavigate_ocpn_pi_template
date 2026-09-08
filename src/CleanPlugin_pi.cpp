@@ -152,7 +152,7 @@ void CleanPlugin_pi::RenderHelloWorld(PlugIn_ViewPort *vp)
     int y = vp->pix_height / 2;
     
     // Texte à afficher
-    wxString text = _T("Hello World");
+    wxString text = _T("KeepMarkNavigate");
     
     // Sauvegarder l'état actuel du DC
     wxPen oldPen = m_pidc->GetPen();

@@ -22,7 +22,7 @@
 #endif  // precompiled headers
 
 #include <typeinfo>
-#include "CleanPlugin_pi.h"
+#include "KeepMarkNavigate_pi.h"
 #include <wx/aui/framemanager.h>
 
 
@@ -31,7 +31,7 @@
 
 extern "C" DECL_EXP opencpn_plugin *create_pi(void *ppimgr) {
  
-  return new CleanPlugin_pi(ppimgr);
+  return new KeepMarkNavigate_pi(ppimgr);
 }
 
 extern "C" DECL_EXP void destroy_pi(opencpn_plugin *p) { delete p; }
@@ -43,7 +43,7 @@ extern "C" DECL_EXP void destroy_pi(opencpn_plugin *p) { delete p; }
 //
 //---------------------------------------------------------------------------------------------------------
 
-CleanPlugin_pi::CleanPlugin_pi(void *ppimgr) 
+KeepMarkNavigate_pi::KeepMarkNavigate_pi(void *ppimgr) 
     : opencpn_plugin_119(ppimgr)
     , wxTimer(this)
     , m_pidc(nullptr)
@@ -61,10 +61,10 @@ CleanPlugin_pi::CleanPlugin_pi(void *ppimgr)
  *  PLUGIN LIFECYCLE: INIT
  *  ------------------------------------------------------------------ */
 
-int CleanPlugin_pi::Init(void) {
+int KeepMarkNavigate_pi::Init(void) {
 
 
-    AddLocaleCatalog(_T("opencpn-cleanPlugin_pi"));
+    AddLocaleCatalog(_T("opencpn-KeepMarkNavigate_pi"));
     
 
     if (!m_pidc) {
@@ -91,7 +91,7 @@ int CleanPlugin_pi::Init(void) {
 }
 
 
-void CleanPlugin_pi::LateInit(void) {
+void KeepMarkNavigate_pi::LateInit(void) {
     
 
      // 1) Get the AUI manager
@@ -107,7 +107,7 @@ void CleanPlugin_pi::LateInit(void) {
     DLOG("Clean Plugin Initialized Late init");
 }
 
-bool CleanPlugin_pi::DeInit(void) {
+bool KeepMarkNavigate_pi::DeInit(void) {
 
     DLOG("Clean Plugin DeInit called");
 
@@ -133,7 +133,7 @@ bool CleanPlugin_pi::DeInit(void) {
 
 
 
-bool CleanPlugin_pi::MouseEventHook(wxMouseEvent &event) {
+bool KeepMarkNavigate_pi::MouseEventHook(wxMouseEvent &event) {
     if (event.LeftUp()) {
         
         return true;
@@ -142,7 +142,7 @@ bool CleanPlugin_pi::MouseEventHook(wxMouseEvent &event) {
 }
 
 
-void CleanPlugin_pi::RenderHelloWorld(PlugIn_ViewPort *vp)
+void KeepMarkNavigate_pi::RenderHelloWorld(PlugIn_ViewPort *vp)
 {
     // Vérifier que nous avons un DC valide
     if (!m_pidc) return;
@@ -191,7 +191,7 @@ void CleanPlugin_pi::RenderHelloWorld(PlugIn_ViewPort *vp)
     m_pidc->SetFont(oldFont);
 }
 
-bool CleanPlugin_pi::RenderGLOverlayMultiCanvas(wxGLContext *pcontext,PlugIn_ViewPort *vp, int canvasIndex,int priority) 
+bool KeepMarkNavigate_pi::RenderGLOverlayMultiCanvas(wxGLContext *pcontext,PlugIn_ViewPort *vp, int canvasIndex,int priority) 
 {
     if (priority != 128 ) return false;
    
@@ -201,7 +201,7 @@ bool CleanPlugin_pi::RenderGLOverlayMultiCanvas(wxGLContext *pcontext,PlugIn_Vie
 }
 
 
-void CleanPlugin_pi::SetPluginMessage(wxString &message_id, wxString &message_body) {
+void KeepMarkNavigate_pi::SetPluginMessage(wxString &message_id, wxString &message_body) {
     if (message_id == _T("WMM_VARIATION_BOAT") ||
         message_id == _T("OpenCPN Config") ||
         message_id == _T("OCPN_OPENGL_CONFIG")) {
@@ -221,7 +221,7 @@ void CleanPlugin_pi::SetPluginMessage(wxString &message_id, wxString &message_bo
 }
 
 
-void CleanPlugin_pi::PreShutdownHook() {
+void KeepMarkNavigate_pi::PreShutdownHook() {
   
 
 }
@@ -230,18 +230,18 @@ void CleanPlugin_pi::PreShutdownHook() {
 
 /*************************************************************************************************************/
 
-int CleanPlugin_pi::GetAPIVersionMajor() { return atoi(API_VERSION); }
+int KeepMarkNavigate_pi::GetAPIVersionMajor() { return atoi(API_VERSION); }
 
-int CleanPlugin_pi::GetAPIVersionMinor() 
+int KeepMarkNavigate_pi::GetAPIVersionMinor() 
 {
     std::string v(API_VERSION);
     size_t dotpos = v.find('.');
     return atoi(v.substr(dotpos + 1).c_str());
 }
 
-int CleanPlugin_pi::GetPlugInVersionMajor() { return PLUGIN_VERSION_MAJOR; }
+int KeepMarkNavigate_pi::GetPlugInVersionMajor() { return PLUGIN_VERSION_MAJOR; }
 
-int CleanPlugin_pi::GetPlugInVersionMinor() { return PLUGIN_VERSION_MINOR; }
+int KeepMarkNavigate_pi::GetPlugInVersionMinor() { return PLUGIN_VERSION_MINOR; }
 
 int GetPlugInVersionPatch() { return PLUGIN_VERSION_PATCH; }
 
@@ -251,28 +251,28 @@ const char *GetPlugInVersionPre() { return PKG_PRERELEASE; }
 
 const char *GetPlugInVersionBuild() { return PKG_BUILD_INFO; }
 
-wxBitmap *CleanPlugin_pi::GetPlugInBitmap() { return &m_panelBitmap; }
+wxBitmap *KeepMarkNavigate_pi::GetPlugInBitmap() { return &m_panelBitmap; }
 
-wxString CleanPlugin_pi::GetCommonName() { return _T("CleanPlugin"); }
+wxString KeepMarkNavigate_pi::GetCommonName() { return _T("keepmarknavigate"); }
 
-wxString CleanPlugin_pi::GetShortDescription() 
+wxString KeepMarkNavigate_pi::GetShortDescription() 
 {
     return _T("Clean Plugin for OpenCPN");
 }
 
-wxString CleanPlugin_pi::GetLongDescription() 
+wxString KeepMarkNavigate_pi::GetLongDescription() 
 {
     return _T("Clean Plugin for OpenCPN.");
 }
 /**************************************************************************************************************************/
 
-void CleanPlugin_pi::SetInterval(int interval) {
+void KeepMarkNavigate_pi::SetInterval(int interval) {
     m_interval = interval;
     if (IsRunning())                          // Timer started?
     Start(m_interval, wxTIMER_CONTINUOUS);  // restart timer with new interval
 }
 
-bool CleanPlugin_pi::LoadConfig(void) 
+bool KeepMarkNavigate_pi::LoadConfig(void) 
 {
     wxFileConfig *pConf = (wxFileConfig *)m_pconfig;
     if (!pConf) {
@@ -283,7 +283,7 @@ bool CleanPlugin_pi::LoadConfig(void)
     return true;
 }
 
-bool CleanPlugin_pi::SaveConfig(void) 
+bool KeepMarkNavigate_pi::SaveConfig(void) 
 {
     wxFileConfig *pConf = (wxFileConfig *)m_pconfig;
     if (!pConf) {
@@ -294,7 +294,7 @@ bool CleanPlugin_pi::SaveConfig(void)
     return true;
 }
 
-void CleanPlugin_pi::UpdateAuiStatus(void) 
+void KeepMarkNavigate_pi::UpdateAuiStatus(void) 
 {
     //    This method is called after the PlugIn is initialized
     //    and the frame has done its initial layout, possibly from a saved
@@ -304,17 +304,17 @@ void CleanPlugin_pi::UpdateAuiStatus(void)
 }
 
 
-void CleanPlugin_pi::Notify() {}
+void KeepMarkNavigate_pi::Notify() {}
 
 
 
 /*********************************************************** Utils *******************************************************************/
 
-wxBitmap CleanPlugin_pi::LoadSVG(const wxString& filename, int width, int height)
+wxBitmap KeepMarkNavigate_pi::LoadSVG(const wxString& filename, int width, int height)
 {
     wxFileName fn;
     wxString tmp_path;
-    tmp_path = GetPluginDataDir("CleanPlugin_pi");  // This depends on your plugin environment
+    tmp_path = GetPluginDataDir("KeepMarkNavigate_pi");  // This depends on your plugin environment
     fn.SetPath(tmp_path);
     fn.AppendDir(_T("data"));
     fn.SetFullName(filename);
@@ -328,11 +328,11 @@ wxBitmap CleanPlugin_pi::LoadSVG(const wxString& filename, int width, int height
 // uses the plugin data directory. Then it optionally scales the image
 // to the requested width/height.
 //----------------------------------------------------------------------------------
-wxImage CleanPlugin_pi::LoadIMG(const wxString& filename, int width, int height)
+wxImage KeepMarkNavigate_pi::LoadIMG(const wxString& filename, int width, int height)
 {
     wxFileName fn;
     wxString tmp_path;
-    tmp_path = GetPluginDataDir("CleanPlugin_pi");
+    tmp_path = GetPluginDataDir("KeepMarkNavigate_pi");
     fn.SetPath(tmp_path);
     fn.AppendDir(_T("data"));
     fn.SetFullName(filename);
@@ -350,7 +350,7 @@ wxImage CleanPlugin_pi::LoadIMG(const wxString& filename, int width, int height)
     return image;
 }
 
-void CleanPlugin_pi::EnableLegacyUi(bool enable) 
+void KeepMarkNavigate_pi::EnableLegacyUi(bool enable) 
 {
     EnableMUIBar(enable, 0);
     EnableMUIBar(enable, 1);
@@ -367,18 +367,18 @@ void CleanPlugin_pi::EnableLegacyUi(bool enable)
 }
 
 
-bool CleanPlugin_pi::InitLogger()
+bool KeepMarkNavigate_pi::InitLogger()
 {
     if (m_initializedLog)
         return true;
 
     wxFileName fn;
 
-    wxString tmp_path = GetPluginDataDir("CleanPlugin_pi");
+    wxString tmp_path = GetPluginDataDir("KeepMarkNavigate_pi");
     fn.SetPath(tmp_path);
     fn.AppendDir(_T("data"));
 
-    fn.SetFullName("clean_plugin.log");
+    fn.SetFullName("keepmarknavigate.log");
 
     // Open the log file in append mode
     if (!m_DpLogFile.Open(fn.GetFullPath(), wxFile::write_append)) {
@@ -393,7 +393,7 @@ bool CleanPlugin_pi::InitLogger()
 //----------------------------------------------------------------------------------
 // Logger de-initialization. This closes the log file cleanly.
 //----------------------------------------------------------------------------------
-void CleanPlugin_pi::DeInitLogger()
+void KeepMarkNavigate_pi::DeInitLogger()
 {
     if (!m_initializedLog)
         return;
@@ -403,7 +403,7 @@ void CleanPlugin_pi::DeInitLogger()
         m_DpLogFile.Close();
 }
 
-void CleanPlugin_pi::DpLog(const wxString& file, int line, const wxColour& color, const wxString& message)
+void KeepMarkNavigate_pi::DpLog(const wxString& file, int line, const wxColour& color, const wxString& message)
 {
     if (!m_initializedLog)
         return;

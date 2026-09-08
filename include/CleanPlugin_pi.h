@@ -55,10 +55,10 @@ class DpHomeMenu;
 //----------------------------------------------------------------------------------------------------------
 
 
-class CleanPlugin_pi : public opencpn_plugin_119, wxTimer{
+class KeepMarkNavigate_pi : public opencpn_plugin_119, wxTimer{
 public:
 
-    CleanPlugin_pi(void *ppimgr);
+    KeepMarkNavigate_pi(void *ppimgr);
 
     //    The required PlugIn Methods
     int Init(void);

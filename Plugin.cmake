@@ -20,12 +20,12 @@ option(DEEPREY_USE_SVG "Use SVG graphics" ON)
 #
 # -------  Plugin setup --------
 #
-set(PKG_NAME CleanPlugin_pi)
+set(PKG_NAME KeepMarkNavigate_pi)
 set(PKG_VERSION  0.0.0.0)
 set(PKG_PRERELEASE "")  # Empty, or a tag like 'beta'
 
-set(DISPLAY_NAME [CleanPlugin])    # Dialogs, installer artifacts, ...
-set(PLUGIN_API_NAME [CleanPlugin]) # As of GetCommonName() in plugin API
+set(DISPLAY_NAME [keepmarknavigate])    # Dialogs, installer artifacts, ...
+set(PLUGIN_API_NAME [keepmarknavigate]) # As of GetCommonName() in plugin API
 set(PKG_SUMMARY "Clean OCPN plugin")
 set(PKG_DESCRIPTION [=[
 "Clean OCPN plugin for tests.
@@ -49,12 +49,12 @@ set(PKG_INFO_URL https://opencpn.org/OpenCPN/plugins/)
 
 # -- Regroupement final
 set(SRC
-    src/CleanPlugin_pi.cpp
+    src/KeepMarkNavigate_pi.cpp
     # separated controls
 )
 
 set(HEADERS
-    include/CleanPlugin_pi.h
+    include/KeepMarkNavigate_pi.h
     # separated headers
 
 )
